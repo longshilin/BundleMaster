@@ -12,12 +12,18 @@ namespace BM
         /// <summary>
         /// 分包配置文件资源目录
         /// </summary>
-        public static string AssetLoadTablePath = "Assets/Editor/BundleMasterEditor/BuildSettings/AssetLoadTable.asset";
+        public static string AssetLoadTablePath = "Assets/BundleMasterAssetsData/AssetLoadTable.asset";
         
         [MenuItem("Tools/BuildAsset/创建分包总索引文件")]
         //[MenuItem("Assets/Create/BuildAsset/创建分包总索引文件")]
         public static void CreateBundleTableSetting()
         {
+            var parent = Directory.GetParent(AssetLoadTablePath);
+            if (parent is { Exists: false })
+            {
+                parent.Create();
+            }
+
             AssetLoadTable assetLoadTable = ScriptableObject.CreateInstance<AssetLoadTable>();
             AssetDatabase.CreateAsset(assetLoadTable, AssetLoadTablePath);
         }
@@ -26,8 +32,14 @@ namespace BM
         //[MenuItem("Assets/Create/BuildAsset/创建分包配置文件")]
         public static void CreateSingleSetting()
         {
+            var parent = Directory.GetParent(AssetLoadTablePath);
+            if (parent is { Exists: false })
+            {
+                parent.Create();
+            }
+
             AssetsLoadSetting assetsLoadSetting = ScriptableObject.CreateInstance<AssetsLoadSetting>();
-            AssetDatabase.CreateAsset(assetsLoadSetting, "Assets/Editor/BundleMasterEditor/BuildSettings/AssetsLoadSetting.asset");
+            AssetDatabase.CreateAsset(assetsLoadSetting, "Assets/BundleMasterAssetsData/AssetsLoadSetting.asset");
         }
 
         [MenuItem("Tools/BuildAsset/构建AssetBundle")]
